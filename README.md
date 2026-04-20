@@ -10,7 +10,7 @@ The site is live and open — no login required, no waitlist.
 
 **[hart.gallery](https://hart.gallery)**
 
-I've removed the access firewall specifically so reviewers and judges can explore the full platform right now.
+I've removed the access firewall specifically so reviewers and judges can explore the full platform right now. My CoFounder Artist, Doggo, drew an outline of claude for you to color in right now! Head over to the community hART page and connect a phantom wallet and BAM start coloring in claude :)
 
 ---
 
