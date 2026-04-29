@@ -1,66 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Bunny — HART Team</title>
-<link rel="stylesheet" href="../_style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_team.css" />
+<style>
+  body {
+    --accent: #a855f7;
+    --accent-soft: rgba(168, 85, 247, 0.15);
+    --accent-line: rgba(168, 85, 247, 0.3);
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="crumb"><a href="../index.html">← Bible</a> · <a href="index.html">Team</a> · Bunny</div>
-  <h1>Bunny</h1>
-  <div class="sub">Community Outreach · somewhere green</div>
-</header>
-
-<main>
-
-<section>
-  <h2>In one sentence</h2>
-  <p style="font-size:1.05rem;">
-    "Quiet by nature. Loud through her pencil. The one in the corner with the sketchbook out,
-    drawing the things most people walk past."
-  </p>
+<section class="profile-hero">
+  <div class="profile-mark">🐰</div>
+  <div class="crumb"><a href="../index.html">← Bible</a> &nbsp;·&nbsp; <a href="index.html">Team</a> &nbsp;·&nbsp; Bunny</div>
+  <div class="eyebrow">Community Outreach</div>
+  <h1 class="profile-name"><em>Bunny</em></h1>
+  <div class="profile-role">
+    <span class="role-chip">Community Outreach</span>
+    <span class="role-loc">Somewhere green</span>
+  </div>
 </section>
 
-<section>
-  <h2>About me</h2>
-  <p>
-    I'm 19. I'd rather draw than talk most days, which is funny given my role on this team. The
-    sketchbook is always somewhere on me. I notice the small stuff — the texture of bark, the way
-    a stranger holds their coffee, a building's shadow at 4 PM. That's the stuff I want to put on
-    a page.
-  </p>
-</section>
-
-<section>
-  <h2>What I do for HART</h2>
-  <p>
-    Community outreach, in my own way. I'm the one writing back to artists who DM us nervous about
-    uploading their first piece. I read every single submission to the Voices wall. I help people
-    figure out where they fit in this community when "fitting in" isn't really the goal — being
-    seen is.
-  </p>
-  <p>
-    Mouse is the megaphone. I'm the inbox. Both are needed.
-  </p>
-</section>
-
-<section>
-  <h2>Why I'm here</h2>
-  <p>
-    Quiet artists get drowned out faster than anyone else, and they're often the ones who would
-    benefit most from being seen. HART has a chance to be a space where you don't need to be loud
-    to be respected. That's the part I want to protect.
-  </p>
-</section>
-
-<div class="next">
-  <a href="mouse.html"><div class="label">← Previous</div><div class="title">Mouse</div></a>
-  <a href="index.html"><div class="label">Back to</div><div class="title">Team</div></a>
+<div class="pull-quote">
+  <div class="pull-quote-inner">
+    <span class="pull-quote-mark">"</span>
+    <p>Quiet by nature. Loud through her pencil. The one in the corner with the sketchbook out, drawing the things most people walk past.</p>
+  </div>
 </div>
 
+<main class="profile-body">
+
+  <aside class="profile-aside">
+    <div class="aside-label">Quick read</div>
+    <div class="aside-title">The <em>inbox</em>.</div>
+    <div class="aside-divider"></div>
+    <div class="aside-meta">
+      <div><span>Age</span><span>19</span></div>
+      <div><span>Tools</span><span>Sketchbook, always</span></div>
+      <div><span>Notices</span><span>The small stuff</span></div>
+      <div><span>Find me</span><span>Your DMs</span></div>
+    </div>
+  </aside>
+
+  <div class="section-stack">
+
+    <section class="profile-section">
+      <h2>About <em>me</em></h2>
+      <p>
+        I'm 19. I'd rather draw than talk most days, which is funny given my role on this team. The
+        sketchbook is always somewhere on me. I notice the small stuff — the texture of bark, the way
+        a stranger holds their coffee, a building's shadow at 4 PM. That's the stuff I want to put on
+        a page.
+      </p>
+    </section>
+
+    <section class="profile-section">
+      <h2>What I do for <em>HART</em></h2>
+      <p>
+        Community outreach, in my own way. I'm the one writing back to artists who DM us nervous about
+        uploading their first piece. I read every single submission to the Voices wall. I help people
+        figure out where they fit in this community when "fitting in" isn't really the goal — being
+        seen is.
+      </p>
+      <div class="callout">Mouse is the megaphone. I'm the inbox. Both are needed.</div>
+    </section>
+
+    <section class="profile-section">
+      <h2>Why I'm <em>here</em></h2>
+      <p>
+        Quiet artists get drowned out faster than anyone else, and they're often the ones who would
+        benefit most from being seen. HART has a chance to be a space where you don't need to be loud
+        to be respected. That's the part I want to protect.
+      </p>
+    </section>
+
+  </div>
 </main>
+
+<nav class="profile-nav">
+  <a href="mouse.html">
+    <div class="label">← Previous</div>
+    <div class="title">Mouse</div>
+  </a>
+  <a href="index.html" class="nav-right">
+    <div class="label">Back to</div>
+    <div class="title">The Team</div>
+  </a>
+</nav>
+
+<footer>
+  <p>© 2026 HART · Made with ❤️ in Germany · <a href="../index.html">Bible Index</a></p>
+</footer>
+
 </body>
 </html>

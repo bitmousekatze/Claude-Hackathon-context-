@@ -1,76 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mouse — HART Team</title>
-<link rel="stylesheet" href="../_style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_team.css" />
+<style>
+  body {
+    --accent: #3dd68c;
+    --accent-soft: rgba(61, 214, 140, 0.15);
+    --accent-line: rgba(61, 214, 140, 0.3);
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="crumb"><a href="../index.html">← Bible</a> · <a href="index.html">Team</a> · Mouse</div>
-  <h1>Mouse</h1>
-  <div class="sub">Artist &amp; Growth · Köln, Germany</div>
-</header>
-
-<main>
-
-<section>
-  <h2>In one sentence</h2>
-  <p style="font-size:1.05rem;">
-    "I might be broke but I've got time, stubbornness, and a big mouth. That's my contribution."
-  </p>
+<section class="profile-hero">
+  <div class="profile-mark">🐭</div>
+  <div class="crumb"><a href="../index.html">← Bible</a> &nbsp;·&nbsp; <a href="index.html">Team</a> &nbsp;·&nbsp; Mouse</div>
+  <div class="eyebrow">Artist · Growth</div>
+  <h1 class="profile-name"><em>Mouse</em></h1>
+  <div class="profile-role">
+    <span class="role-chip">Artist &amp; Growth</span>
+    <span class="role-loc">Köln, Germany</span>
+  </div>
 </section>
 
-<section>
-  <h2>The beginning</h2>
-  <p>
-    I'm 22, born and raised in Köln, and I still live here. Same streets I've been tagging since I
-    was 15. How would I describe myself? Loud, broke, loyal as hell. The friend who'll stay up all
-    night helping you edit your shit even if I have nothing to eat the next day. A bit chaotic,
-    always hyped, zero filter.
-  </p>
-  <p>
-    I started making art the second I could hold a pencil — that kid in class drawing on every
-    desk and notebook. It got serious in high school when I met Katze and we started feeding off
-    each other's ideas.
-  </p>
-</section>
-
-<section>
-  <h2>The art</h2>
-  <p>
-    Digital illustration with a street-style edge. I do graphic design work too. My style is
-    chaotic by intent — bold, loud, the visual equivalent of how I talk. If something can be
-    bigger, brighter, or more in-your-face, I'll usually push it that way.
-  </p>
-</section>
-
-<section>
-  <h2>What I do for HART</h2>
-  <p>
-    I'm the hype. I do graphic work for posts and announcements, I help artists who are nervous
-    about uploading, I argue with people online when they say HART is just another NFT site
-    (it isn't). Growth on a project like this isn't paid ads — it's showing up every day and
-    actually caring. That part I'm good at.
-  </p>
-</section>
-
-<section>
-  <h2>Why this matters to me</h2>
-  <p>
-    Every artist friend I have has had a moment where AI took something away from them — a
-    commission, recognition, the feeling that their work was worth anything. If I can help even one
-    of them feel like there's somewhere their work counts again, I've done my job.
-  </p>
-</section>
-
-<div class="next">
-  <a href="amethyst.html"><div class="label">← Previous</div><div class="title">Amethyst</div></a>
-  <a href="bunny.html"><div class="label">Next →</div><div class="title">Bunny</div></a>
+<div class="pull-quote">
+  <div class="pull-quote-inner">
+    <span class="pull-quote-mark">"</span>
+    <p>I might be broke but I've got time, stubbornness, and a big mouth. That's my contribution.</p>
+  </div>
 </div>
 
+<main class="profile-body">
+
+  <aside class="profile-aside">
+    <div class="aside-label">Quick read</div>
+    <div class="aside-title">The <em>megaphone</em>.</div>
+    <div class="aside-divider"></div>
+    <div class="aside-meta">
+      <div><span>Age</span><span>22</span></div>
+      <div><span>Based</span><span>Köln, DE</span></div>
+      <div><span>Style</span><span>Street · Bold · Loud</span></div>
+      <div><span>Find me</span><span>Wherever the noise is</span></div>
+    </div>
+  </aside>
+
+  <div class="section-stack">
+
+    <section class="profile-section">
+      <h2>The <em>beginning</em></h2>
+      <p>
+        I'm 22, born and raised in Köln, and I still live here. Same streets I've been tagging since I
+        was 15. How would I describe myself? Loud, broke, loyal as hell. The friend who'll stay up all
+        night helping you edit your shit even if I have nothing to eat the next day. A bit chaotic,
+        always hyped, zero filter.
+      </p>
+      <p>
+        I started making art the second I could hold a pencil — that kid in class drawing on every
+        desk and notebook. It got serious in high school when I met Katze and we started feeding off
+        each other's ideas.
+      </p>
+    </section>
+
+    <section class="profile-section">
+      <h2>The <em>art</em></h2>
+      <p>
+        Digital illustration with a street-style edge. I do graphic design work too. My style is
+        chaotic by intent — bold, loud, the visual equivalent of how I talk. If something can be
+        bigger, brighter, or more in-your-face, I'll usually push it that way.
+      </p>
+    </section>
+
+    <section class="profile-section">
+      <h2>What I do for <em>HART</em></h2>
+      <p>
+        I'm the hype. I do graphic work for posts and announcements, I help artists who are nervous
+        about uploading, I argue with people online when they say HART is just another NFT site
+        (it isn't). Growth on a project like this isn't paid ads — it's showing up every day and
+        actually caring. That part I'm good at.
+      </p>
+    </section>
+
+    <section class="profile-section">
+      <h2>Why this <em>matters</em> to me</h2>
+      <p>
+        Every artist friend I have has had a moment where AI took something away from them — a
+        commission, recognition, the feeling that their work was worth anything. If I can help even one
+        of them feel like there's somewhere their work counts again, I've done my job.
+      </p>
+    </section>
+
+  </div>
 </main>
+
+<nav class="profile-nav">
+  <a href="amethyst.html">
+    <div class="label">← Previous</div>
+    <div class="title">Amethyst</div>
+  </a>
+  <a href="bunny.html" class="nav-right">
+    <div class="label">Next →</div>
+    <div class="title">Bunny</div>
+  </a>
+</nav>
+
+<footer>
+  <p>© 2026 HART · Made with ❤️ in Germany · <a href="../index.html">Bible Index</a></p>
+</footer>
+
 </body>
 </html>

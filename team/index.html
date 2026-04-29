@@ -1,116 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>The Team — HART Production Bible</title>
-<link rel="stylesheet" href="../_style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0e0e0e;
+    --surface: #161616;
+    --raised:  #1f1f1f;
+    --border:  rgba(255,255,255,0.08);
+    --text:    #f0ede8;
+    --muted:   #6a6560;
+    --red:     #f43f6a;
+    --red-dim: #c0294d;
+    --gold:    #c9a96e;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.8;
+  }
+
+  a { color: inherit; }
+
+  /* ── HERO ── */
+  .page-hero { padding: 5rem 3rem 4rem; max-width: 1300px; margin: 0 auto; }
+
+  .crumb { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.05em; margin-bottom: 2rem; }
+  .crumb a { color: var(--gold); text-decoration: none; }
+  .crumb a:hover { color: var(--red); }
+
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--red); font-weight: 500;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .eyebrow::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--red); }
+
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: end; }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700; line-height: 1.0;
+    margin-bottom: 1.5rem;
+  }
+  .page-title em { font-style: italic; color: var(--red); }
+
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.8;
+    border-left: 2px solid var(--red); padding-left: 1.5rem;
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 5rem 3rem; max-width: 1300px; margin: 0 auto; }
+  .section-band { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 5rem 0; }
+  .section-band-inner { max-width: 1300px; margin: 0 auto; padding: 0 3rem; }
+
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--red); font-weight: 500; margin-bottom: 1rem;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .section-label::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--red); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.15;
+    margin-bottom: 2.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .prose p { color: rgba(240,237,232,0.78); font-size: 1rem; line-height: 1.9; margin-bottom: 1.2rem; max-width: 780px; }
+  .prose strong { color: var(--text); font-weight: 500; }
+
+  /* ── TEAM GRID ── */
   .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
   }
   .member {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 18px 20px;
-    background: #14141a;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 2rem 2rem 1.75rem;
     text-decoration: none;
-    color: var(--ink);
-    transition: border-color 0.15s, transform 0.15s;
-    display: block;
+    color: var(--text);
+    display: flex; flex-direction: column;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
   }
-  .member:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .member .role {
+  .member::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--red);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .member:hover {
+    background: rgba(255,255,255,0.025);
+    border-color: rgba(255,255,255,0.16);
+    transform: translateY(-3px);
+  }
+  .member:hover::before { opacity: 1; }
+
+  .member-icon {
+    width: 2.5rem; height: 2.5rem;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .member-icon.katze    { background: rgba(61, 214, 140, 0.15); border: 1px solid rgba(61, 214, 140, 0.3); }
+  .member-icon.doggo    { background: rgba(79, 142, 247, 0.15); border: 1px solid rgba(79, 142, 247, 0.3); }
+  .member-icon.amethyst { background: rgba(232, 54, 74, 0.15); border: 1px solid rgba(232, 54, 74, 0.3); }
+  .member-icon.mouse    { background: rgba(61, 214, 140, 0.15); border: 1px solid rgba(61, 214, 140, 0.3); }
+  .member-icon.bunny    { background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); }
+
+  .member-role {
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .member-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 700;
+    line-height: 1.1; margin-bottom: 0.8rem;
+  }
+  .member-blurb {
+    font-size: 0.88rem; color: var(--muted);
+    line-height: 1.65; flex: 1;
+  }
+  .member-arrow {
+    margin-top: 1.5rem;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--muted);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    transition: color 0.2s, gap 0.2s;
   }
-  .member .name {
-    font-size: 1.3rem;
-    color: var(--accent-2);
-    margin-bottom: 8px;
+  .member:hover .member-arrow { color: var(--red); gap: 0.7rem; }
+
+  /* ── NOT-FOUND LIST ── */
+  .not-here {
+    list-style: none; padding: 0;
+    display: grid; gap: 0.9rem;
+    margin-top: 1.5rem;
   }
-  .member .blurb {
-    color: var(--muted);
+  .not-here li {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
     font-size: 0.9rem;
-    margin: 0;
+    color: rgba(240,237,232,0.75);
+    line-height: 1.6;
+    border-left: 2px solid var(--gold);
+  }
+
+  /* ── NEXT NAV ── */
+  .next {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-top: 4rem;
+  }
+  .next a {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .next a:hover { background: var(--surface); border-color: var(--red); }
+  .next .label {
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.3rem;
+  }
+  .next .title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--text);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    max-width: 1300px; margin: 0 auto;
+    text-align: center;
+  }
+  footer p { font-size: 0.78rem; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .page-hero { padding: 4rem 1.5rem 3rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 2rem; align-items: start; }
+    .section, .section-band-inner { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .next { grid-template-columns: 1fr; }
+    footer { padding: 2rem 1.5rem; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="crumb"><a href="../index.html">← HART Production Bible</a> · The Team</div>
-  <h1>The Team</h1>
-  <div class="sub">The people behind HART. Handles, not legal names — by choice.</div>
-</header>
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <div class="crumb"><a href="../index.html">← HART Production Bible</a> &nbsp;·&nbsp; The Team</div>
 
-<main>
-
-<section>
-  <h2>Why handles?</h2>
-  <p>
-    Everyone on the team uses a handle. Not because we're hiding — most of us are reachable in
-    public Discord every day — but because <strong>HART was never meant to be about us</strong>.
-    The art is the point. The artists are the point. We're the people who stayed up too late
-    writing the code, drawing the mascots, and answering the messages.
-  </p>
-  <p>
-    These pages exist so anyone considering uploading their work, joining the community, or just
-    trying to understand who's running this thing has a real human voice to read — not a generic
-    "About Us" boilerplate.
-  </p>
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Who's behind it</div>
+      <h1 class="page-title">Five people.<br/>Five <em>handles.</em></h1>
+    </div>
+    <div>
+      <p class="hero-sub">
+        HART was never meant to be about us. The art is the point. The artists are the point.
+        We're the people who stayed up too late writing the code, drawing the mascots, and answering the messages.
+      </p>
+    </div>
+  </div>
 </section>
 
-<section>
-  <h2>Meet everyone</h2>
+<!-- ── WHY HANDLES ── -->
+<section class="section-band">
+  <div class="section-band-inner">
+    <div class="section-label">Why handles</div>
+    <h2 class="section-title">Reachable, not <em>marketable.</em></h2>
+    <div class="prose">
+      <p>
+        Everyone on the team uses a handle. Not because we're hiding — most of us are reachable in
+        public Discord every day — but because <strong>HART is not a personal brand</strong>.
+      </p>
+      <p>
+        These pages exist so anyone considering uploading their work, joining the community, or just
+        trying to understand who's running this thing has a real human voice to read — not a generic
+        "About Us" boilerplate.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── MEET EVERYONE ── -->
+<section class="section">
+  <div class="section-label">Meet everyone</div>
+  <h2 class="section-title">The <em>five</em> who do the work.</h2>
+
   <div class="team-grid">
     <a class="member" href="katze.html">
-      <div class="role">Founder &amp; Developer</div>
-      <div class="name">Katze</div>
-      <p class="blurb">Believes code is the new way to change the world. Wrote the platform.</p>
+      <div class="member-icon katze">🐱</div>
+      <div class="member-role">Founder &amp; Developer</div>
+      <div class="member-name">Katze</div>
+      <p class="member-blurb">Believes code is the new way to change the world. Wrote the platform.</p>
+      <span class="member-arrow">Read profile →</span>
     </a>
     <a class="member" href="doggo.html">
-      <div class="role">Artist &amp; Community Lead</div>
-      <div class="name">Doggo</div>
-      <p class="blurb">Draws because it feels good. Watching AI flood his feed is what made HART real.</p>
+      <div class="member-icon doggo">🐶</div>
+      <div class="member-role">Artist &amp; Community Lead</div>
+      <div class="member-name">Doggo</div>
+      <p class="member-blurb">Draws because it feels good. Watching AI flood his feed is what made HART real.</p>
+      <span class="member-arrow">Read profile →</span>
     </a>
     <a class="member" href="amethyst.html">
-      <div class="role">Artist &amp; Community Voice</div>
-      <div class="name">Amethyst</div>
-      <p class="blurb">Makes things you can hold. Believes the proof a human made it is the point.</p>
+      <div class="member-icon amethyst">💜</div>
+      <div class="member-role">Artist &amp; Community Voice</div>
+      <div class="member-name">Amethyst</div>
+      <p class="member-blurb">Makes things you can hold. Believes the proof a human made it is the point.</p>
+      <span class="member-arrow">Read profile →</span>
     </a>
     <a class="member" href="mouse.html">
-      <div class="role">Artist &amp; Growth</div>
-      <div class="name">Mouse</div>
-      <p class="blurb">Loud, broke, loyal. Does the hype work and stays up too late helping friends.</p>
+      <div class="member-icon mouse">🐭</div>
+      <div class="member-role">Artist &amp; Growth</div>
+      <div class="member-name">Mouse</div>
+      <p class="member-blurb">Loud, broke, loyal. Does the hype work and stays up too late helping friends.</p>
+      <span class="member-arrow">Read profile →</span>
     </a>
     <a class="member" href="bunny.html">
-      <div class="role">Community Outreach</div>
-      <div class="name">Bunny</div>
-      <p class="blurb">Quiet by nature, loud through her pencil. Draws what most people walk past.</p>
+      <div class="member-icon bunny">🐰</div>
+      <div class="member-role">Community Outreach</div>
+      <div class="member-name">Bunny</div>
+      <p class="member-blurb">Quiet by nature, loud through her pencil. Draws what most people walk past.</p>
+      <span class="member-arrow">Read profile →</span>
     </a>
   </div>
 </section>
 
-<section>
-  <h2>What you won't find here</h2>
-  <ul>
-    <li>Real names, photos, or contact details. The handles and Discord are how to reach us.</li>
-    <li>Wallet addresses or financial figures. Those live on the live platform, not in design docs.</li>
-    <li>An "advisory board" or fake titles. The team is the team — five people who actually do the work.</li>
-  </ul>
+<!-- ── WHAT YOU WON'T FIND ── -->
+<section class="section-band">
+  <div class="section-band-inner">
+    <div class="section-label">What you won't find</div>
+    <h2 class="section-title">No <em>theatre.</em></h2>
+    <ul class="not-here">
+      <li>Real names, photos, or contact details. The handles and Discord are how to reach us.</li>
+      <li>Wallet addresses or financial figures. Those live on the live platform, not in design docs.</li>
+      <li>An "advisory board" or fake titles. The team is the team — five people who actually do the work.</li>
+    </ul>
+  </div>
 </section>
 
-<div class="next">
-  <a href="../index.html"><div class="label">Back to</div><div class="title">Bible Index</div></a>
-  <a href="katze.html"><div class="label">First profile →</div><div class="title">Katze</div></a>
-</div>
+<section class="section">
+  <div class="next">
+    <a href="../index.html">
+      <div class="label">← Back to</div>
+      <div class="title">Bible Index</div>
+    </a>
+    <a href="katze.html">
+      <div class="label">First profile →</div>
+      <div class="title">Katze</div>
+    </a>
+  </div>
+</section>
 
-</main>
+<footer>
+  <p>© 2026 HART · Made with ❤️ in Germany · <a href="../index.html" style="color:var(--gold); text-decoration:none;">Bible Index</a></p>
+</footer>
+
 </body>
 </html>

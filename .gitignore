@@ -1,3 +1,0 @@
-# Images are kept locally so the bible renders rich in dev,
-# but excluded from the public repo so they are not redistributed.
-images/

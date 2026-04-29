@@ -1,82 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Katze — HART Team</title>
-<link rel="stylesheet" href="../_style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_team.css" />
+<style>
+  body {
+    --accent: #3dd68c;
+    --accent-soft: rgba(61, 214, 140, 0.15);
+    --accent-line: rgba(61, 214, 140, 0.3);
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="crumb"><a href="../index.html">← Bible</a> · <a href="index.html">Team</a> · Katze</div>
-  <h1>Katze</h1>
-  <div class="sub">Founder &amp; Developer · Köln, Germany</div>
-</header>
-
-<main>
-
-<section>
-  <h2>In one sentence</h2>
-  <p style="font-size:1.05rem;">
-    "I believe code is the new way to change the world. HART is my attempt to prove it."
-  </p>
+<section class="profile-hero">
+  <div class="profile-mark">🐱</div>
+  <div class="crumb"><a href="../index.html">← Bible</a> &nbsp;·&nbsp; <a href="index.html">Team</a> &nbsp;·&nbsp; Katze</div>
+  <div class="eyebrow">Founder</div>
+  <h1 class="profile-name"><em>Katze</em></h1>
+  <div class="profile-role">
+    <span class="role-chip">Founder &amp; Developer</span>
+    <span class="role-loc">Köln, Germany</span>
+  </div>
 </section>
 
-<section>
-  <h2>The origin</h2>
-  <p>
-    I ended up in Köln by a road that wasn't straightforward — life took some sharp turns before it
-    landed me here, living with family, starting over in a city I love. Arriving here with almost
-    nothing and a laptop turned out to be exactly the right conditions for building something that
-    matters.
-  </p>
-  <p>
-    I've always believed that <strong>code is the new way to change the world</strong>.
-    Decentralized systems, real people connecting peer-to-peer with no middleman — that idea has
-    driven everything I've ever built. When I met Doggo, a ridiculously talented artist watching
-    his own work disappear into an ocean of AI-generated images, everything clicked into place.
-  </p>
-</section>
-
-<section>
-  <h2>The moment</h2>
-  <p>
-    AI art started showing up everywhere and I couldn't always tell what was real. The craft behind
-    a piece — the hours, the decisions, the humanity of it — was becoming invisible. So we decided
-    to build something that fights that, and pairs it with action in the physical world too.
-  </p>
-  <p>
-    HART isn't a company. It isn't really even ours. It belongs to every artist who uploads their
-    first piece, every person who signs their name against AI theft, every stranger who picks up
-    litter on a Tuesday because they believe the world is worth caring about. Doggo and I just
-    built the door. You walk through it.
-  </p>
-</section>
-
-<section>
-  <h2>What I work on</h2>
-  <ul>
-    <li><strong>HART platform</strong> — the marketplace, the canvas, the burn flow. Most of the code in this repo.</li>
-    <li><strong>Real-world cleanup tooling</strong> — verified outdoor cleanups, GPS proof, on-chain receipts. A side of HART that lives in the physical world.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>How I show up</h2>
-  <p>
-    Katze is a handle, not a PR persona. I stayed anonymous because HART was never meant to be
-    about me — but I'm in Discord every day, I answer messages, I ship fixes when bugs are
-    reported. This is my first project at this scale and I will make mistakes. If you're patient
-    with me while I fix bugs and keep shipping, I promise to keep building and listening.
-  </p>
-</section>
-
-<div class="next">
-  <a href="index.html"><div class="label">Back to</div><div class="title">Team</div></a>
-  <a href="doggo.html"><div class="label">Next →</div><div class="title">Doggo</div></a>
+<div class="pull-quote">
+  <div class="pull-quote-inner">
+    <span class="pull-quote-mark">"</span>
+    <p>I believe code is the new way to change the world. HART is my attempt to prove it.</p>
+  </div>
 </div>
 
+<main class="profile-body">
+
+  <aside class="profile-aside">
+    <div class="aside-label">Quick read</div>
+    <div class="aside-title">The one who <em>wrote</em> the platform.</div>
+    <div class="aside-divider"></div>
+    <div class="aside-meta">
+      <div><span>Role</span><span>Founder · Dev</span></div>
+      <div><span>Based</span><span>Köln, DE</span></div>
+      <div><span>Works on</span><span>Platform · Cleanups</span></div>
+      <div><span>Find me</span><span>Discord daily</span></div>
+    </div>
+  </aside>
+
+  <div class="section-stack">
+
+    <section class="profile-section">
+      <h2>The <em>origin</em></h2>
+      <p>
+        I ended up in Köln by a road that wasn't straightforward — life took some sharp turns before it
+        landed me here, living with family, starting over in a city I love. Arriving here with almost
+        nothing and a laptop turned out to be exactly the right conditions for building something that
+        matters.
+      </p>
+      <p>
+        I've always believed that <strong>code is the new way to change the world</strong>.
+        Decentralized systems, real people connecting peer-to-peer with no middleman — that idea has
+        driven everything I've ever built. When I met Doggo, a ridiculously talented artist watching
+        his own work disappear into an ocean of AI-generated images, everything clicked into place.
+      </p>
+    </section>
+
+    <section class="profile-section">
+      <h2>The <em>moment</em></h2>
+      <p>
+        AI art started showing up everywhere and I couldn't always tell what was real. The craft behind
+        a piece — the hours, the decisions, the humanity of it — was becoming invisible. So we decided
+        to build something that fights that, and pairs it with action in the physical world too.
+      </p>
+      <p>
+        HART isn't a company. It isn't really even ours. It belongs to every artist who uploads their
+        first piece, every person who signs their name against AI theft, every stranger who picks up
+        litter on a Tuesday because they believe the world is worth caring about. Doggo and I just
+        built the door. You walk through it.
+      </p>
+    </section>
+
+    <section class="profile-section">
+      <h2>What I <em>work on</em></h2>
+      <ul>
+        <li><strong>HART platform</strong> — the marketplace, the canvas, the burn flow. Most of the code in this repo.</li>
+        <li><strong>Real-world cleanup tooling</strong> — verified outdoor cleanups, GPS proof, on-chain receipts. A side of HART that lives in the physical world.</li>
+      </ul>
+    </section>
+
+    <section class="profile-section">
+      <h2>How I <em>show up</em></h2>
+      <p>
+        Katze is a handle, not a PR persona. I stayed anonymous because HART was never meant to be
+        about me — but I'm in Discord every day, I answer messages, I ship fixes when bugs are
+        reported. This is my first project at this scale and I will make mistakes. If you're patient
+        with me while I fix bugs and keep shipping, I promise to keep building and listening.
+      </p>
+    </section>
+
+  </div>
 </main>
+
+<nav class="profile-nav">
+  <a href="index.html">
+    <div class="label">← Back to</div>
+    <div class="title">The Team</div>
+  </a>
+  <a href="doggo.html" class="nav-right">
+    <div class="label">Next →</div>
+    <div class="title">Doggo</div>
+  </a>
+</nav>
+
+<footer>
+  <p>© 2026 HART · Made with ❤️ in Germany · <a href="../index.html">Bible Index</a></p>
+</footer>
+
 </body>
 </html>
