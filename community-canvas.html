@@ -80,6 +80,100 @@ day_multiplier: d1=1, d2=1, d3=2, d4=3, d5=4, d6=5, d7=7</pre>
 </section>
 
 <section>
+  <h2>Section mode — outline-based painting</h2>
+  <p>
+    Alongside the open pixel canvas, HART runs a second mode built around <strong>numbered outlines</strong>.
+    An artist uploads a line drawing; once an admin approves it, the outline becomes an active
+    canvas split into numbered regions. Painters claim one region at a time, fill it in using the
+    in-page editor (the same toolset as <code>hart-paint.html</code>), and submit it for mod review.
+    When every section is approved, the finished piece goes to live auction — but unlike pixel
+    canvases, the proceeds are split between the artist, the platform, and the burn.
+  </p>
+
+  <h3>Lifecycle of an outline canvas</h3>
+  <ol>
+    <li><span class="pill pill-info">UPLOAD</span> An artist submits a line-art outline via <code>upload.html</code>.</li>
+    <li><span class="pill pill-info">APPROVE</span> An admin reviews and approves the outline. It appears in <em>Active canvases</em>.</li>
+    <li><span class="pill pill-info">CLAIM</span> A painter connects their Phantom wallet, picks a canvas, and clicks a numbered section.</li>
+    <li><span class="pill pill-acc">BURN</span> Claiming burns HART on-chain and locks that section to the painter's wallet.</li>
+    <li><span class="pill pill-info">PAINT</span> The painter fills the section using fill, brush, airbrush, eraser, undo, and the palette / custom color picker.</li>
+    <li><span class="pill pill-warn">REVIEW</span> Painter submits for mod approval. Mods accept (paint goes live on the wall) or reject (section returns to the pool).</li>
+    <li><span class="pill pill-good">COMPLETE</span> When every section is approved, the canvas locks and goes to auction. The winning bid is split: <strong>55% artist / 5% platform / 40% burn</strong> (see settlement flow below).</li>
+  </ol>
+
+  <h3>Painting flow — what the painter sees</h3>
+  <ol>
+    <li>Hover any numbered region — a tooltip shows its number and status (open / claimed / done).</li>
+    <li>Click to select. The right-hand panel reveals the palette, tools, daily-claim bar, and the burn cost.</li>
+    <li>Press <strong>Claim section</strong>. A Phantom transaction burns the cost shown; once confirmed, only that wallet can paint inside the region.</li>
+    <li>Paint inside the section. Strokes are clipped to the outline mask — color cannot bleed past the lines.</li>
+    <li>Press <strong>Submit for approval</strong>. The section enters the mod queue; the painter can keep claiming elsewhere while it's reviewed.</li>
+  </ol>
+
+  <h3>Section claim cost &amp; daily limit</h3>
+  <p>Cost is per-painter and resets on a 24-hour rolling window. Hard cap: 10 sections claimed per wallet per day.</p>
+  <table>
+    <tr><th>Sections claimed in last 24h</th><th>Cost of next claim</th></tr>
+    <tr><td>0–4 (first 5)</td><td>100 HART</td></tr>
+    <tr><td>5–7 (next 3)</td><td>150 HART</td></tr>
+    <tr><td>8–9 (final 2)</td><td>200 HART</td></tr>
+    <tr><td>10</td><td>Locked — wait for the rolling window to clear</td></tr>
+  </table>
+
+  <h3>Bidding on the finished outline</h3>
+  <p>
+    Auctions on completed outline canvases use the same single-winner format as pixel canvases,
+    with one extra anti-spam rule: <strong>placing a bid burns 50 HART</strong> per attempt as a
+    sybil-resistance fee. The bid burn is permanent regardless of whether the bid wins.
+  </p>
+
+  <p>
+    Unlike pixel canvases, outline canvases <strong>do not burn 100% of the winning bid</strong> —
+    the artist who uploaded the outline gets paid. The top bid splits as follows:
+  </p>
+
+  <table>
+    <tr><th>Slice</th><th>% of winning bid</th><th>Destination</th></tr>
+    <tr><td>Artist payout</td><td>55%</td><td>Wallet of the outline uploader (50% base + 5% remittance thank-you)</td></tr>
+    <tr><td>Platform retain</td><td>5%</td><td>Platform wallet — operations</td></tr>
+    <tr><td>Burn</td><td>40%</td><td>On-chain burn address — tx hash published</td></tr>
+  </table>
+
+  <h3>Settlement flow — two-step remittance</h3>
+  <p>
+    Funds do not split automatically. The winner pays the artist; the artist then forwards the
+    platform/burn slice. Each step has its own 24-hour deadline.
+  </p>
+  <ol>
+    <li>
+      <strong>Step 1 — Winner → Artist (24h):</strong> the winning bidder sends <strong>100% of the
+      bid</strong> directly to the outline artist's wallet within 24 hours of auction close. If they
+      miss the window, the bidder forfeits the artwork.
+    </li>
+    <li>
+      <strong>Step 2 — Artist → Platform (24h):</strong> once the artist has confirmed receipt of
+      the full bid, they have 24 hours to forward <strong>45% of the total</strong> to the platform
+      wallet. The platform then burns 40% (of total) on-chain and retains 5%. The artist keeps the
+      other 55% as their payout.
+    </li>
+  </ol>
+
+  <h4>What happens if a step is missed</h4>
+  <ul>
+    <li><span class="pill pill-warn">BIDDER FORFEIT</span> Step 1 missed → bid voided, artwork unsold, failure posted on HART's channels (Discord / X). Canvas re-enters auction at the next <strong>10:20 Europe/Berlin</strong> slot (same day if before 10:20 Berlin, otherwise the next day).</li>
+    <li><span class="pill pill-warn">ARTIST DELIST</span> Step 2 missed → the artist's account is subject to <strong>delisting</strong>: their existing artworks are removed from the platform.</li>
+    <li><span class="pill pill-warn">UPLOAD LOCK</span> From the moment an artist confirms receipt of a winning bid, they <strong>cannot upload any new outlines</strong> until they have remitted the 45% — regardless of how much time has passed. The 24h clock governs delisting; the upload lock is open-ended.</li>
+    <li><span class="pill pill-acc">NO REFUND</span> The 50 HART bid-burn is permanent regardless. Anti-sybil fees never come back.</li>
+  </ul>
+
+  <div class="callout">
+    Pixel mode is open-ended chaos with a moderation curve. Outline mode is curated collaboration
+    with mod gates. Both end with a locked canvas going to auction — pixel canvases burn 100% of
+    the bid, outline canvases pay the artist, retain a small platform slice, and burn the rest.
+  </div>
+</section>
+
+<section>
   <h2>Auction &amp; burn flow</h2>
   <div class="image-row">
     <figure>
@@ -101,8 +195,10 @@ day_multiplier: d1=1, d2=1, d3=2, d4=3, d5=4, d6=5, d7=7</pre>
   </ol>
 
   <div class="callout note">
-    <strong>No middlemen, no take rate.</strong> 100% of auction proceeds are burned. The platform
-    wallet is just a relay so the burn can be a single clean transaction the public can audit.
+    <strong>No middlemen, no take rate — for pixel canvases.</strong> 100% of pixel-canvas auction
+    proceeds are burned. The platform wallet is just a relay so the burn can be a single clean
+    transaction the public can audit. <strong>Outline canvases follow a different split</strong>
+    because the uploading artist is paid — see <em>Bidding on the finished outline</em> above.
   </div>
 
   <h3>Unsold canvases</h3>

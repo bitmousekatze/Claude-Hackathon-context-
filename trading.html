@@ -11,110 +11,240 @@
 <header>
   <div class="crumb"><a href="index.html">← HART Production Bible</a> · Chapter 3 of 5</div>
   <h1>Trading</h1>
-  <div class="sub">Peer-to-peer artwork swaps. Atomic, opt-in, no platform middle.</div>
+  <div class="sub">Steam-style realtime trade windows between collectors who trust each other. Two collectors mint each other a copy — nobody loses their original, both collections grow.</div>
 </header>
 
 <main>
 
 <section>
-  <h2>What a trade is</h2>
+  <h2>What a trade actually is</h2>
   <p>
-    A trade is a <strong>two-sided, atomic exchange</strong>: each side offers items (artworks
-    and/or hART), both sides sign, and the swap settles in a single transaction. Either side can
-    walk away before signing; once both have signed, the trade either fully settles or fully
-    reverts — never partial.
+    A HART trade is <strong>not an ownership swap</strong>. When two collectors agree to a trade,
+    each side keeps the original artwork in their collection — and each side <strong>receives a
+    traded copy</strong> of the artwork from the other side. Both wallets gain a piece; neither
+    wallet loses one. The 10 HART per piece in the fee is the credit/royalty paid to the original
+    artist for issuing that copy.
   </p>
   <ul>
-    <li><span class="pill pill-good">RULE</span> Atomicity. Both legs settle together or neither does.</li>
+    <li><span class="pill pill-good">RULE</span> Originals never leave the collection. They stay with the wallet that owned them before the trade.</li>
+    <li><span class="pill pill-good">RULE</span> Each side gains a <strong>traded copy</strong> of every artwork in the other side's basket. Copies are clearly marked as traded in the UI.</li>
+    <li><span class="pill pill-good">RULE</span> <strong>Artwork only.</strong> No HART on either side of the basket. HART-for-art is a sale, not a trade.</li>
     <li><span class="pill pill-good">RULE</span> Both wallets must sign. There is no unilateral trade.</li>
-    <li><span class="pill pill-acc">DESIGN</span> The platform does not arbitrate fairness. Trades are voluntary.</li>
+    <li><span class="pill pill-acc">DESIGN</span> Trading grows both collections at once. The OG artist gets paid every time someone wants a copy of their work in circulation.</li>
   </ul>
-</section>
-
-<section>
-  <h2>What can be on each side</h2>
-  <p>An offer is a basket. Each side's basket may contain:</p>
-  <ul>
-    <li>Zero or more <strong>artworks</strong> the offerer currently owns and that are not locked elsewhere.</li>
-    <li>An optional <strong>hART amount</strong> to balance the trade.</li>
-  </ul>
-  <p>Empty baskets are allowed on at most one side (i.e. a "give" is a gift; see the gifting chapter — the system routes such cases through the gift flow instead).</p>
-</section>
-
-<section>
-  <h2>Lifecycle</h2>
-  <ol>
-    <li><span class="pill pill-info">PROPOSE</span> Initiator builds a two-sided offer and sends it to the counterparty's inbox.</li>
-    <li><span class="pill pill-info">REVIEW</span> Counterparty inspects items, balances, and any on-chain conditions. Can counter, decline, or accept.</li>
-    <li><span class="pill pill-info">COUNTER</span> A counter is a new proposal that supersedes the previous one. Old proposal is voided.</li>
-    <li><span class="pill pill-info">LOCK</span> When both sides accept, all listed items are locked from other actions.</li>
-    <li><span class="pill pill-info">SIGN</span> Each side signs the swap transaction in their wallet.</li>
-    <li><span class="pill pill-good">SETTLE</span> Atomic on-chain swap. Ownership flips for all items in one tx.</li>
-    <li><span class="pill pill-warn">CANCEL</span> Before final signing, either side can cancel — items unlock immediately.</li>
-    <li><span class="pill pill-warn">EXPIRE</span> Proposals auto-expire if not acted on within the standard window.</li>
-  </ol>
-</section>
-
-<section>
-  <h2>Locking rules</h2>
-  <table>
-    <tr><th>Item state</th><th>Eligible for trade?</th></tr>
-    <tr><td>Owned, idle</td><td>Yes</td></tr>
-    <tr><td>Listed for sale</td><td>No — owner must delist first</td></tr>
-    <tr><td>In another trade proposal</td><td>No — only one open trade at a time per item</td></tr>
-    <tr><td>Pending gift</td><td>No</td></tr>
-    <tr><td>Under moderation review</td><td>No</td></tr>
-  </table>
-  <div class="callout">
-    The single-open-trade-per-item rule prevents accidental double-commits. If you need to entertain
-    multiple offers, use the auction flow under Buying &amp; Selling.
+  <div class="callout warn">
+    HART on one side of a swap is just a sale dressed up as a trade. We don't allow it. To pay HART
+    for someone's work, list a buy-offer in Buying &amp; Selling. To exchange copies of pieces, use Trading.
   </div>
 </section>
 
 <section>
-  <h2>Royalties &amp; fees</h2>
+  <h2>What can be on each side</h2>
+  <p>Each side's basket contains <strong>one or more artworks</strong> currently in their collection. Both baskets must be non-empty — an empty basket on one side means it's a gift, and the system routes those through the gifting flow instead.</p>
+  <p>You can include artworks you originally minted and artworks you collected via auction, gift, or a previous trade. The basket lists what your counterparty will receive a copy of, not what you give up.</p>
+</section>
+
+<section>
+  <h2>Realtime trade window — Steam-style</h2>
+  <p>
+    Trades happen in a <strong>live, two-sided trade window</strong> modelled on Steam. Both
+    collectors are in the window at the same time, see each other's collection on their side, and
+    drag pieces in and out of the trade in real time. There is no inbox round-trip and no async
+    "send a proposal, wait for a reply" flow — if the other person isn't in the window with you,
+    the trade can't happen.
+  </p>
+
+  <h3>What the window looks like</h3>
   <ul>
-    <li><span class="pill pill-good">RULE</span> If a trade includes <strong>any hART</strong> on either side, royalties on the artwork(s) moving in the opposite direction are paid based on the hART leg.</li>
-    <li><span class="pill pill-good">RULE</span> A pure artwork-for-artwork swap (no hART either side) is treated as a barter and pays <strong>no royalties</strong>.</li>
-    <li><span class="pill pill-acc">DESIGN</span> Bartering shouldn't be punished, but cash-balanced swaps are sales in disguise — they pay artists.</li>
-    <li>Platform fee on trades with hART is the same rate as on direct sales (see Buying &amp; Selling).</li>
+    <li><strong>Two baskets, side-by-side.</strong> Your basket on the left, theirs on the right. Each shows the artworks currently offered, with thumbnails and OG-artist credit.</li>
+    <li><strong>Live updates.</strong> Anything either side adds or removes appears instantly on both screens. No reload, no refresh.</li>
+    <li><strong>Per-side fee preview.</strong> Each basket shows the running fee live: <code>90 + 10 × pieces</code>. As you add or remove items the totals update for both of you.</li>
+    <li><strong>Inline chat.</strong> A chat panel beside the baskets so the two of you can talk through the trade without leaving the window.</li>
+    <li><strong>Inventory drawer.</strong> Each side has a searchable view of their own collection — drag a piece into your basket to offer it, drag it back out to retract.</li>
+  </ul>
+
+  <h3>Two-step confirm — the Steam lock</h3>
+  <p>
+    To stop last-second swaps and bait-and-switches, accepting a trade is a two-step lock just like
+    Steam:
+  </p>
+  <ol>
+    <li><span class="pill pill-info">READY</span> Each side clicks <strong>Ready</strong> when their basket is what they want. Both baskets freeze — neither side can add or remove items while either side is in the Ready state.</li>
+    <li><span class="pill pill-warn">EDIT</span> If anything changes (either side adds, removes, or reorders), both Ready states drop and both sides have to click Ready again. This makes it impossible to slip in a swap after the other person has confirmed.</li>
+    <li><span class="pill pill-info">CONFIRM</span> Once both sides are Ready, a final <strong>Confirm trade</strong> button activates. Both must confirm — this is the wallet signature step.</li>
+    <li><span class="pill pill-good">SETTLE</span> Atomic on-chain settlement: each side's fee deducts, OG royalties route, the burn slice burns, traded copies mint into the opposite wallets.</li>
+  </ol>
+
+  <h3>Window lifecycle</h3>
+  <ol>
+    <li><span class="pill pill-info">INVITE</span> One collector invites another into a trade. The invite goes only to a <strong>trusted contact</strong> (see below). The invitee gets a popup; they can accept or decline.</li>
+    <li><span class="pill pill-info">OPEN</span> Both collectors enter the live trade window. Originals on both sides briefly lock from listings, gifts, and other trade windows for as long as this one is open.</li>
+    <li><span class="pill pill-info">BUILD</span> Either side adds, removes, or reorders pieces. The other side sees the change live.</li>
+    <li><span class="pill pill-info">READY → CONFIRM</span> The two-step lock above.</li>
+    <li><span class="pill pill-good">SETTLE</span> One on-chain transaction; receipts written to both sides.</li>
+    <li><span class="pill pill-warn">CANCEL</span> Either side can hit Cancel at any point before settlement. Nothing burns, nothing mints.</li>
+    <li><span class="pill pill-warn">DISCONNECT</span> If either side closes the tab, drops connection, or goes idle past the timeout, the window auto-cancels and originals unlock immediately.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Trust list — you decide who you can trade with</h2>
+  <p>
+    HART does not moderate trades. The platform will not arbitrate "was this fair" disputes,
+    inspect baskets for value mismatches, or reverse a settled trade. Instead, you control who
+    can even invite you into a trade window in the first place.
+  </p>
+  <ul>
+    <li><span class="pill pill-good">TRUST</span> Every collector maintains a <strong>trust list</strong> on their profile. Only wallets on your trust list can send you a trade invite.</li>
+    <li><span class="pill pill-good">ADD</span> Adding someone is mutual-by-request: you ask, they accept. Either side can remove the relationship at any time, which immediately blocks future invites both ways.</li>
+    <li><span class="pill pill-good">BLOCK</span> Block list overrides everything — a blocked wallet cannot invite you, message you in a trade window, or see you in counterparty search.</li>
+    <li><span class="pill pill-acc">DESIGN</span> Trust is the moderation. If you only trade with people you actually trust, scams have nowhere to land. If you trade with strangers, that's on you.</li>
+  </ul>
+  <div class="callout warn">
+    Once both sides confirm, the trade settles on-chain and is final. There is no "I changed my
+    mind" or "they tricked me" rollback. The two-step lock and the trust list exist so you have
+    every chance to bail before that point — use them.
+  </div>
+</section>
+
+<section>
+  <h2>Eligibility rules</h2>
+  <table>
+    <tr><th>Item state</th><th>Can be in a trade basket?</th></tr>
+    <tr><td>Owned, idle</td><td>Yes</td></tr>
+    <tr><td>Listed for sale</td><td>No — owner must delist first (avoids conflicting offers on the same piece)</td></tr>
+    <tr><td>In another open trade window</td><td>No — only one open trade window per piece at a time</td></tr>
+    <tr><td>Pending gift</td><td>No</td></tr>
+    <tr><td>Under moderation review</td><td>No</td></tr>
+  </table>
+  <div class="callout">
+    The original is not transferred, but it is briefly locked from other actions while a trade
+    window is open so listings, gifts, and other trade windows can't conflict. As soon as the
+    window settles or closes, the original is fully back in circulation.
+  </div>
+</section>
+
+<section>
+  <h2>Trade fee — burn &amp; OG-artist split</h2>
+  <p>
+    Sending a trade is not free. Each side pays a fee when the swap settles, made of two parts:
+    a fixed <strong>90 HART burn</strong>, plus <strong>10 HART per artwork in their basket</strong>
+    routed to the original artist of each piece — that's the OG's credit for letting a copy of
+    their work be minted to the other collector.
+  </p>
+
+  <h3>Per-side cost formula</h3>
+  <pre>per_side_cost = 90 (burn) + 10 × artworks_in_your_basket</pre>
+
+  <table>
+    <tr><th>Your basket</th><th>Burn</th><th>OG-artist royalties</th><th>Total you pay</th></tr>
+    <tr><td>1 artwork</td><td>90 HART</td><td>10 HART (1 × 10)</td><td><strong>100 HART</strong></td></tr>
+    <tr><td>2 artworks</td><td>90 HART</td><td>20 HART (2 × 10)</td><td><strong>110 HART</strong></td></tr>
+    <tr><td>3 artworks</td><td>90 HART</td><td>30 HART (3 × 10)</td><td><strong>120 HART</strong></td></tr>
+    <tr><td>N artworks</td><td>90 HART</td><td>10·N HART</td><td><strong>(90 + 10·N) HART</strong></td></tr>
+  </table>
+
+  <p>
+    The burn is fixed per side regardless of basket size. Each artwork carries its own 10 HART
+    royalty to its specific OG artist — so a 3-piece basket pays three different OGs (one per piece),
+    not one OG split three ways.
+  </p>
+
+  <h3>Worked example — 3-for-1 trade</h3>
+  <p>Collector A's basket contains 3 artworks; Collector B's basket contains 1 artwork.</p>
+  <ul>
+    <li><strong>Side A pays 120 HART:</strong> 90 burn + 10 × 3 to the OG artists of A's three pieces. Side B receives traded copies of all 3.</li>
+    <li><strong>Side B pays 100 HART:</strong> 90 burn + 10 to the OG artist of B's piece. Side A receives a traded copy of it.</li>
+    <li><strong>Trade total: 220 HART moved</strong> — 180 burned, 40 to OG artists across four pieces.</li>
+    <li><strong>Originals:</strong> A still owns their 3 pieces, B still owns their 1. Plus A now has 1 copy and B has 3 copies.</li>
+  </ul>
+
+  <div class="callout">
+    Original artist = the wallet that uploaded / minted the piece originally, not the current owner.
+    The OG artist gets paid every time a copy of their work moves into a new collection — that's
+    the whole point of trading existing as its own flow.
+  </div>
+
+  <h3>Edge cases &amp; restrictions</h3>
+  <ul>
+    <li><span class="pill pill-warn">BLOCKED</span> <strong>An OG artist cannot receive a copy of their own original artwork through a trade.</strong> They would be paying themselves the royalty to mint a copy of a piece they already created — buying their own work from themselves with extra steps. The system rejects any trade where one side's basket contains a piece originally minted by the wallet on the other side.</li>
+    <li>If the OG artist's wallet is <strong>unreachable</strong> (closed / blacklisted), their 10 HART is burned instead of routed. Burn total for that piece becomes 100 HART rather than 90.</li>
+    <li>Baskets must be non-empty on both sides. Empty basket on one side → use the gifting flow instead.</li>
+    <li>You cannot include the same piece in two open trade proposals at once. Withdraw or wait for the other to resolve.</li>
   </ul>
 </section>
 
 <section>
+  <h2>Traded copies &amp; profile badges</h2>
+  <p>
+    Every artwork in a collection carries a small badge that tells you how it got there. Hover or
+    tap any piece in a profile to see the source. Three sources are tracked:
+  </p>
+  <table>
+    <tr><th>Badge</th><th>Source</th><th>Means</th></tr>
+    <tr><td>🏅 Medal</td><td>Gallery / Auction</td><td>Bought outright — winning bid or gallery buy-now</td></tr>
+    <tr><td>🎀 Gift bow</td><td>Gifted</td><td>Received via the gifting flow from another collector</td></tr>
+    <tr><td>🔄 Trade icon</td><td>Traded copy</td><td>Received as a copy through a trade — the original lives in another collection</td></tr>
+  </table>
+  <p>
+    The OG artist's wallet and display name are credited on every piece — original or copy — so
+    attribution never gets diluted by trading. Traded copies are display-equivalent to originals
+    in your collection (same render, same metadata), but the badge and the provenance trail make
+    the source unambiguous.
+  </p>
+</section>
+
+<section>
   <h2>Receipts &amp; provenance</h2>
-  <p>A settled trade writes one receipt visible to both sides and updates each artwork's provenance with a <em>trade</em> reason code. The receipt records:</p>
+  <p>A settled trade writes one receipt visible to both sides and updates each piece's provenance log. The receipt records:</p>
   <ul>
-    <li>Both wallets, full basket on each side, hART amounts</li>
-    <li>Royalties paid (if any) and to which creators</li>
+    <li>Both wallets and the full artwork basket on each side</li>
+    <li>Per-side trade fee with the breakdown shown explicitly: 90 HART burn + 10 HART × artworks-in-basket</li>
+    <li>Each OG artist royalty payout (10 HART per piece) and the burn tx hash</li>
+    <li>The mint references for each newly issued traded copy</li>
     <li>Settlement transaction signature</li>
     <li>Optional message attached to the proposal</li>
   </ul>
+  <p class="sub">
+    The original's provenance trail is unchanged by the trade — it is still owned by the same
+    wallet. The newly minted traded copy gets its own provenance starting from the trade event,
+    crediting the OG artist as the creator and the receiving collector as the holder.
+  </p>
 </section>
 
 <section>
   <h2>Disputes</h2>
   <p>
     Because trades are atomic and both-sides-signed, post-settlement disputes about <em>what was
-    swapped</em> do not exist — the on-chain record is final. The only dispute surface is
-    <strong>off-platform claims</strong> (e.g., "we agreed I'd add more hART later"). The platform
+    minted</em> do not exist — the on-chain record is final. The only dispute surface is
+    <strong>off-platform claims</strong> (e.g., "we agreed I'd add more HART later"). The platform
     does not enforce or arbitrate side agreements; users are advised to put all consideration
     inside the trade itself.
   </p>
   <div class="callout warn">
-    If you intend to receive payment "after" a transfer, that is a sale, not a trade — use the
-    sale flow so the system handles escrow and royalty correctly.
+    If you intend to receive HART "after" a transfer, that is a sale, not a trade. Trades are
+    artwork-for-artwork only — use Buying &amp; Selling so the system handles escrow and royalty correctly.
   </div>
 </section>
 
 <section>
   <h2>Anti-abuse</h2>
+  <p>
+    Trade safety lives in the trust list, the two-step lock, and the live window — not in mod
+    review. The platform does not arbitrate trades. A handful of mechanical guards exist:
+  </p>
   <ul>
-    <li>Proposal sends are rate-limited per wallet to prevent inbox spam.</li>
-    <li>A counterparty who has blocked the sender will not receive proposals.</li>
-    <li>Mods can void a pending proposal that involves a flagged artwork; pending locks release.</li>
-    <li>Asset previews in the proposal are rendered from canonical, sanitized metadata only.</li>
+    <li><strong>Trust-only invites.</strong> A wallet not on your trust list cannot start a trade window with you. This is the main spam and scam filter.</li>
+    <li><strong>Invite rate limit.</strong> Even within trust lists, invites are rate-limited per wallet to prevent grief-inviting.</li>
+    <li><strong>Block override.</strong> Blocking someone removes them from your trust list and prevents all future invites and chat.</li>
+    <li><strong>Sanitized previews.</strong> Asset thumbnails and titles in the trade window are rendered from canonical, sanitized metadata only — no rich content can be injected through a piece.</li>
+    <li><strong>Per-artwork single-window lock.</strong> One open trade window per piece at a time — prevents a piece from being committed in two windows at once.</li>
+    <li><strong>Auto-cancel on disconnect / idle.</strong> A dropped or idle window closes itself and unlocks both originals.</li>
   </ul>
+  <div class="callout note">
+    Notice what's <em>not</em> here: no mod review of trades, no platform reversal of settled
+    swaps, no fairness arbitration. By design.
+  </div>
 </section>
 
 <div class="next">
